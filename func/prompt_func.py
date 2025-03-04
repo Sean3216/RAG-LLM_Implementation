@@ -1,3 +1,4 @@
+import os
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
@@ -23,6 +24,8 @@ def define_model(hugging_api):
     #     seed = 42
     # )
     
+    os.environ['HF_TOKEN'] = hugging_api
+
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-1B")
     model = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.2-1B")
     
