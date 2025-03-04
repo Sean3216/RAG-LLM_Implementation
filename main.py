@@ -35,6 +35,12 @@ parser.add_argument(
     action='store_true',
     help='Whether to use the RAG pipeline or not'
 )
+parser.add_argument(
+    '--num_k',
+    type = int,
+    default = 2,
+    help = 'The number of similar documents to retrieve'
+)
 
 args = parser.parse_args()
 
@@ -49,7 +55,7 @@ def main():
     ### preparing the data
     data = load_data_from_csv(args.rag_data_path)
     docs_chunks, embedding_model = split_documents(data, args.splitter_type)
-    retriever, vector_store = create_retriever(docs_chunks, embedding_model)
+    retriever, vector_store = create_retriever(docs_chunks, embedding_model, num_k=args.num_k)
 
     ### prompt
     #while the user wants to continue, continue to prompt
@@ -63,6 +69,8 @@ def main():
 
         try:
             answer = ask_question(question, llm, retriever, use_rag = args.use_rag)
+            #Display text after Answer:
+            answer = answer.split("Answer:")[1]
         except Exception as e:
             print(f"An error occurred: {e}")
 
@@ -71,10 +79,9 @@ def main():
             sim_docs = vector_store.similarity_search(question)
             for doc in sim_docs:
                 print(doc)
-            print("="*100)
-            print(answer)
-        else:
-            print(answer)
+            
+        print("="*100)
+        print(answer)
 
 if __name__ == '__main__':
     main()

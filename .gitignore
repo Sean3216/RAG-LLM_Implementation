@@ -1,5 +1,4 @@
 *.yaml
-*.txt
 *.ipynb
 chroma_db/*
 data/*
