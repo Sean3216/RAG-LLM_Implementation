@@ -1,0 +1,2 @@
+data is obtained from:
+https://www.kaggle.com/datasets/manojajj/banking-chatbot

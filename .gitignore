@@ -1,4 +1,4 @@
 *.yaml
 *.ipynb
 chroma_db/*
-data/*
+*.csv
